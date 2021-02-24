@@ -11,6 +11,10 @@ Full custom PHP login using PDO & Bootstrap UI
 - Add DB config params to db.php
 - Open index.php and register a user
 
+## TODO
+- login Attempt 
+- block user for 5min after 5attempt
+
 ## App Info
 
 ### Author
@@ -21,6 +25,7 @@ Brad Traversy
 ### Version
 
 1.0.0
+
 
 ### License
 
