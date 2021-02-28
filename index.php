@@ -28,10 +28,20 @@
         <div class="card card-body bg-light mt-5">
           <h2>Dashboard <small class="text-muted"><?php echo $_SESSION['email']; ?></small></h2>
           <p>Welcome to the dashboard <?php echo $_SESSION['user']['username']; ?></p>
-          <?= var_dump($_SESSION);?>
+          <div class="card">
+            <ul>
+              <li>Name: <?= $_SESSION['user']['firstname'].' '.$_SESSION['user']['Surname']?></li>
+              <li>Username: <?= $_SESSION['user']['username']?></li>
+              <li>Email: <?= $_SESSION['user']['email']?></li>
+              <li>Date Of Birth: <?= $_SESSION['user']['dob']?></li>
+              <li>Postal Address: <?= $_SESSION['user']['postal_addr']?></li>
+
+            </ul>
+          </div>
+
           <p>
             <a href="updateprofile.php" class="btn btn-warning">Update Profile</a>
-            <a href="logout.php" class="btn btn-danger">Logout</a></p>
+            <a href="update_pass.php" class="btn btn-warning">Change Password </a></p>
           <p><a href="logout.php" class="btn btn-danger">Logout</a></p>
         </div>
       </div>

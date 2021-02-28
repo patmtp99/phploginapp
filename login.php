@@ -28,7 +28,7 @@
     // Make sure errors are empty
     if(empty($email_err) && empty($password_err)){
       // Prepare query
-      $sql = 'SELECT username, email, password FROM users WHERE email = :email';
+      $sql = 'SELECT * FROM users WHERE email = :email';
 
       // Prepare statement
       if($stmt = $pdo->prepare($sql)){
