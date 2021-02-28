@@ -3,8 +3,8 @@
   require_once 'db.php';
 
   // Init vars
-  $name = $email = $password = $confirm_password = '';
-  $name_err = $email_err = $password_err = $confirm_password_err = '';
+  $dob = $postal_addr =$firstname = $surname = $username = $email = $password = $confirm_password = '';
+  $dob_err = $postal_addr_err =$firstname_err = $surname_err = $username_err = $email_err = $password_err = $confirm_password_err = '';
 
   // Process form when post submit
   if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -12,7 +12,11 @@
     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
     // Put post vars in regular vars
-    $name =  trim($_POST['name']);
+    $firstname =  trim($_POST['firstname']);
+    $username =  trim($_POST['username']);
+    $surname =  trim($_POST['surname']);
+    $dob =  trim($_POST['dob']);
+    $postal_addr =  trim($_POST['postal_addr']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
     $confirm_password = trim($_POST['confirm_password']);
@@ -22,7 +26,7 @@
       $email_err = 'Please enter email';
     } else {
       // Prepare a select statement
-      $sql = 'SELECT id FROM users WHERE email = :email';
+      $sql = 'SELECT uid FROM users WHERE email = :email';
 
       if($stmt = $pdo->prepare($sql)){
         // Bind variables
@@ -35,17 +39,59 @@
             $email_err = 'Email is already taken';
           }
         } else {
-          die('Something went wrong');
+          die('1.Something went wrong');
         }
       }
 
       unset($stmt);
     }
 
-    // Validate name
-    if(empty($name)){
-      $name_err = 'Please enter name';
+    // Validate username
+    if(empty($username)){
+      $username_err = 'Please enter username';
+    } else {
+      // Prepare a select statement
+      $sql = 'SELECT uid FROM users WHERE username = :username';
+
+      if($stmt = $pdo->prepare($sql)){
+        // Bind variables
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+
+        // Attempt to execute
+        if($stmt->execute()){
+          // Check if username exists
+          if($stmt->rowCount() === 1){
+            $username_err = 'Username is already taken';
+          }
+        } else {
+          die('2.Something went wrong');
+        }
+      }
+
+      unset($stmt);
     }
+
+    // Validate firstname
+    if(empty($firstname)){
+      $firstname_err = 'Please enter firstname';
+    }
+    // Validate surname
+    if(empty($surname)){
+      $surname_err = 'Please enter surname';
+    }
+    // Validate username
+    if(empty($username)){
+      $username_err = 'Please enter username';
+    }
+    // Validate dob
+    if(empty($dob)){
+      $dob_err = 'Please enter the Date of Birth';
+    }
+    // Validate postal_addr
+    if(empty($postal_addr)){
+      $postal_addr_err = 'Please enter postal address';
+    }
+
 
     // Validate password
     if(empty($password)){
@@ -69,11 +115,15 @@
       $password = password_hash($password, PASSWORD_DEFAULT);
 
       // Prepare insert query
-      $sql = 'INSERT INTO users (name, email, password) VALUES (:name, :email, :password)';
+      $sql = 'INSERT INTO users (firstname,surname, username,dob,postal_addr, email, password) VALUES (:firstname,:surname, :username,:dob,:postal_addr, :email, :password)';
 
       if($stmt = $pdo->prepare($sql)){
         // Bind params
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':firstname', $firstname, PDO::PARAM_STR);
+        $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->bindParam(':postal_addr', $postal_addr, PDO::PARAM_STR);
+        $stmt->bindParam(':dob', $dob, PDO::PARAM_STR);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':password', $password, PDO::PARAM_STR);
 
@@ -82,7 +132,7 @@
           // Redirect to login
           header('location: login.php');
         } else {
-          die('Something went wrong');
+          die('3.Something went wrong');
         }
       }
       unset($stmt);
@@ -111,9 +161,29 @@
           <p>Fill in this form to register</p>
           <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" name="name" class="form-control form-control-lg <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
-              <span class="invalid-feedback"><?php echo $name_err; ?></span>
+              <label for="firstname">Firstname</label>
+              <input type="text" name="firstname" class="form-control form-control-lg <?php echo (!empty($firstname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $firstname; ?>">
+              <span class="invalid-feedback"><?php echo $firstname_err; ?></span>
+            </div>
+            <div class="form-group">
+              <label for="surname">Surname</label>
+              <input type="text" name="surname" class="form-control form-control-lg <?php echo (!empty($surname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $surname; ?>">
+              <span class="invalid-feedback"><?php echo $surname_err; ?></span>
+            </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" name="username" class="form-control form-control-lg <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+              <span class="invalid-feedback"><?php echo $username_err; ?></span>
+            </div>
+            <div class="form-group">
+              <label for="dob">Date of Birth</label>
+              <input type="date" name="dob" class="form-control form-control-lg <?php echo (!empty($dob_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $dob; ?>">
+              <span class="invalid-feedback"><?php echo $dob_err; ?></span>
+            </div>
+            <div class="form-group">
+              <label for="postal_addr">Postal Address</label>
+              <input type="text" name="postal_addr" class="form-control form-control-lg <?php echo (!empty($postal_addr_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $postal_addr; ?>">
+              <span class="invalid-feedback"><?php echo $postal_addr_err; ?></span>
             </div>
             <div class="form-group">
               <label for="email">Email Address</label>
