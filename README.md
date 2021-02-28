@@ -12,8 +12,12 @@ Full custom PHP login using PDO & Bootstrap UI
 - Open index.php and register a user
 
 ## TODO
+- update database 
+- update registration form 
 - login Attempt 
-- block user for 5min after 5attempt
+- update password
+- update profile
+- block user for 5min after 5 attempt
 
 ## App Info
 
