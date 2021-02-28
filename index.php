@@ -27,7 +27,11 @@
       <div class="col">
         <div class="card card-body bg-light mt-5">
           <h2>Dashboard <small class="text-muted"><?php echo $_SESSION['email']; ?></small></h2>
-          <p>Welcome to the dashboard <?php echo $_SESSION['name']; ?></p>
+          <p>Welcome to the dashboard <?php echo $_SESSION['user']['username']; ?></p>
+          <?= var_dump($_SESSION);?>
+          <p>
+            <a href="updateprofile.php" class="btn btn-warning">Update Profile</a>
+            <a href="logout.php" class="btn btn-danger">Logout</a></p>
           <p><a href="logout.php" class="btn btn-danger">Logout</a></p>
         </div>
       </div>
