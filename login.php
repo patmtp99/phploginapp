@@ -28,7 +28,7 @@
     // Make sure errors are empty
     if(empty($email_err) && empty($password_err)){
       // Prepare query
-      $sql = 'SELECT name, email, password FROM users WHERE email = :email';
+      $sql = 'SELECT username, email, password FROM users WHERE email = :email';
 
       // Prepare statement
       if($stmt = $pdo->prepare($sql)){
@@ -45,7 +45,8 @@
                 // SUCCESSFUL LOGIN
                 session_start();
                 $_SESSION['email'] = $email;
-                $_SESSION['name'] = $row['name'];
+                $_SESSION['user'] = $row;
+                // var_dump($row);die;
                 header('location: index.php');
               } else {
                 // Display wrong password message
