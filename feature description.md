@@ -8,10 +8,11 @@ hash new password
 update password
 redirect to Profile 
 
-##UPDATE PROFILE: almost left with the update of the session 
+##UPDATE PROFILE: done
 form is submitted 
 data is validated 
-and updated 
+and updated session 
+with new information
 
 ##LOGIN Attempt
 after three attempt 
