@@ -107,9 +107,7 @@
               <div class="col">
                 <button type="submit" value="Register" class="btn btn-success btn-block">Change Password</button>
               </div>
-              <div class="col">
-                <a href="login.php" class="btn btn-light btn-block">Have an account? Login</a>
-              </div>
+            
             </div>
           </form>
         </div>

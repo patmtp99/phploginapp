@@ -1,11 +1,13 @@
 <?php
   // Include db config
   require_once 'db.php';
+  session_start();
 
   // Init vars
   $email = $password = '';
   $email_err = $password_err = '';
-
+  var_dump($_SESSION); echo '</br>';
+  $_SESSION['attempt'] = $_SESSION['attempt'] ?? 0;
   // Process form when post submit
   if($_SERVER['REQUEST_METHOD'] === 'POST'){
     // Sanitize POST
@@ -43,7 +45,6 @@
               $hashed_password = $row['password'];
               if(password_verify($password, $hashed_password)){
                 // SUCCESSFUL LOGIN
-                session_start();
                 $_SESSION['email'] = $email;
                 $_SESSION['user'] = $row;
                 // var_dump($row);die;
@@ -51,12 +52,18 @@
               } else {
                 // Display wrong password message
                 $password_err = 'The password you entered is not valid';
+                $_SESSION['attempt']['count'] = $_SESSION['attempt']['count']+1;
+
               }
             }
           } else {
             $email_err = 'No account found for that email';
+            $_SESSION['attempt']['count'] = $_SESSION['attempt']+1;
+
           }
         } else {
+
+          $_SESSION['attempt']= $_SESSION['attempt']+1;
           die('Something went wrong');
         }
       }
@@ -67,6 +74,8 @@
     // Close connection
     unset($pdo);
   }
+
+  var_dump($_SESSION);
 ?>
 
 <!DOCTYPE html>

@@ -30,7 +30,7 @@
           <p>Welcome to the dashboard <?php echo $_SESSION['user']['username']; ?></p>
           <div class="card">
             <ul>
-              <li>Name: <?= $_SESSION['user']['firstname'].' '.$_SESSION['user']['Surname']?></li>
+              <li>Name: <?= $_SESSION['user']['firstname'].' '.$_SESSION['user']['surname']?></li>
               <li>Username: <?= $_SESSION['user']['username']?></li>
               <li>Email: <?= $_SESSION['user']['email']?></li>
               <li>Date Of Birth: <?= $_SESSION['user']['dob']?></li>

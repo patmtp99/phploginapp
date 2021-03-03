@@ -14,9 +14,13 @@ data is validated
 and updated session 
 with new information
 
-##LOGIN Attempt
+##LOGIN Attempt: thinking about it.
 after three attempt 
 block the login form 
+init session 
+update attempt count
+set cookie and  
+block login form when count reach 0 
 
 ##FAQ
 Question Reponse 
