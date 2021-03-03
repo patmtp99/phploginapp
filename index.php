@@ -40,7 +40,7 @@
           </div>
 
           <p>
-            <a href="updateprofile.php" class="btn btn-warning">Update Profile</a>
+            <a href="update_profile.php" class="btn btn-warning">Update Profile</a>
             <a href="update_pass.php" class="btn btn-warning">Change Password </a></p>
           <p><a href="logout.php" class="btn btn-danger">Logout</a></p>
         </div>
