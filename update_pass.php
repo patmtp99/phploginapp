@@ -21,7 +21,7 @@
     if(empty($email)){
       $email_err = 'Please enter Old Password';
     } else {
-    	$hashed_pass = $_SESSION['user']['password']
+    	$hashed_pass = $_SESSION['user']['password'];
       	$old_password_verify = password_verify($old_password, $hashed_pass);
        }
 
@@ -105,7 +105,7 @@
 
             <div class="form-row">
               <div class="col">
-                <button>Change Password</button>
+                <button type="submit" value="Register" class="btn btn-success btn-block">Change Password</button>
               </div>
               <div class="col">
                 <a href="login.php" class="btn btn-light btn-block">Have an account? Login</a>
