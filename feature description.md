@@ -23,5 +23,10 @@ set cookie and
 block login form when count reach 0 
 
 ##FAQ
-Question Reponse 
-Contact Us
+SQL: Question Reponse 
+SQL: contactus 
+create Contact Us to ask question 
+create reply page where questions 
+are replied and then fetch question 
+and responses to displya before the 
+submition of the form. 
