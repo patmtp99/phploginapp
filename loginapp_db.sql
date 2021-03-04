@@ -13,3 +13,10 @@ CREATE TABLE users(
 	postal_addr VARCHAR(255),
 	PRIMARY KEY(uid)
 );
+
+CREATE TABLE faq(
+	faqid INT NOT NULL AUTO_INCREMENT,
+	question VARCHAR(155),
+	response TEXT NULL,
+	PRIMARY KEY(faqid)
+);
