@@ -1,15 +1,24 @@
 <?php
-  // Include db config
-  require_once 'db.php';
-  session_start();
-
-  // Init vars
+require 'db.php';
+// Init vars
   $email = $password = '';
   $email_err = $password_err = '';
-  var_dump($_SESSION); echo '</br>';
-  $_SESSION['attempt'] = $_SESSION['attempt'] ?? 0;
+  // session_start();
+
+
+if(!isset($_SESSION['attempt'])){$_SESSION['attempt'] = 3;}
+
+  function loginattempt(){
+
+    $_SESSION['attempt'] = $_SESSION['attempt'] - 1;
+    if ($_SESSION['attempt']==0) {
+      setcookie('banned','banned for 10 minute', time()+300);
+    }
+
+  }
+
   // Process form when post submit
-  if($_SERVER['REQUEST_METHOD'] === 'POST'){
+  if($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_COOKIE['banned'])){
     // Sanitize POST
     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -45,25 +54,23 @@
               $hashed_password = $row['password'];
               if(password_verify($password, $hashed_password)){
                 // SUCCESSFUL LOGIN
-                $_SESSION['email'] = $email;
-                $_SESSION['user'] = $row;
-                // var_dump($row);die;
-                header('location: index.php');
+                $_SESSION['air_pollution']['email'] = $email;
+                $_SESSION['air_pollution']['username'] = $row['username'];
+                // $_SESSION['name'] = $row['name'];
+                $_SESSION['air_pollution']['id'] = $row['id'];
+                header('location: profile.php');
               } else {
                 // Display wrong password message
                 $password_err = 'The password you entered is not valid';
-                $_SESSION['attempt']['count'] = $_SESSION['attempt']['count']+1;
-
+                loginattempt();
               }
             }
           } else {
+            loginattempt();
             $email_err = 'No account found for that email';
-            $_SESSION['attempt']['count'] = $_SESSION['attempt']+1;
-
           }
         } else {
-
-          $_SESSION['attempt']= $_SESSION['attempt']+1;
+             print_r($pdo->errorInfo());
           die('Something went wrong');
         }
       }
@@ -74,9 +81,7 @@
     // Close connection
     unset($pdo);
   }
-
-  var_dump($_SESSION);
-?>
+   ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +99,15 @@
         <div class="card card-body bg-light mt-5">
           <h2>Login</h2>
           <p>Fill in your credentials</p>
-          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">   
+
+          <?php if (isset($_COOKIE['banned'])): ?>
+            <div class="card card-body">
+              You are banned for 5 Minnute due to the failed attempt
+            </div>
+
+        <?php else: ?>
+
+          <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <div class="form-group">
               <label for="email">Email Address</label>
               <input type="email" name="email" class="form-control form-control-lg <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $email; ?>">
@@ -114,6 +127,7 @@
               </div>
             </div>
           </form>
+          <?php endif;?>
         </div>
       </div>
     </div>
